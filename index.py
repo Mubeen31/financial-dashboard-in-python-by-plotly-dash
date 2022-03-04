@@ -12,7 +12,7 @@ PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("./data").resolve()
 
 data = pd.read_csv(DATA_PATH.joinpath('financial_data.csv'))
-
+print(data.dtypes)
 
 font_awesome = "https://use.fontawesome.com/releases/v5.10.2/css/all.css"
 meta_tags = [{"name": "viewport", "content": "width=device-width"}]
@@ -43,7 +43,7 @@ app.layout = html.Div([
                          clearable = True,
                          disabled = False,
                          style = {'display': True},
-                         value = 'MAR',
+                         value = 'Mar',
                          placeholder = 'Select Month',
                          options = [{'label': c, 'value': c}
                                     for c in data['months'].unique()],
@@ -60,7 +60,8 @@ html.Div([
                            className = 'format_text')
                 ], className = 'accounts_receivable1'),
                 html.Div([
-
+                    html.Div(id = 'accounts_receivable_value',
+                             className = 'numeric_value')
                 ], className = 'accounts_receivable2')
             ], className = 'accounts_receivable_column'),
             html.Div([
@@ -132,6 +133,22 @@ html.Div([
     ], className = 'income_statement_row')
     ], className = 'f_row')
 ])
+
+
+@app.callback(Output('accounts_receivable_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        accounts_receivable = filter_month['accounts receivable'].iloc[0]
+
+        return [
+            html.P('${0:,.0f}'.format(accounts_receivable),
+                   ),
+        ]
+
 
 if __name__ == "__main__":
     app.run_server(debug = True)

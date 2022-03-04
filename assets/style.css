@@ -323,3 +323,13 @@ body {
   justify-content: center;
   flex-wrap: wrap;
 }
+
+.numeric_value {
+  display: flex;
+  flex-direction: row;
+  color: #000000;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 auto;
+  font-family: Calibri;
+}
