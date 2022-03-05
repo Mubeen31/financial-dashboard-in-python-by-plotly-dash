@@ -333,3 +333,34 @@ body {
   margin: 0 auto;
   font-family: Calibri;
 }
+
+.indicator1 {
+  display: flex;
+  flex-direction: row;
+  color: #00B050;
+  font-size: 14px;
+  margin: 0 auto;
+  font-family: Calibri;
+}
+
+.indicator2 {
+  display: flex;
+  flex-direction: row;
+  color: #FF3399;
+  font-size: 14px;
+  margin: 0 auto;
+  font-family: Calibri;
+}
+
+.value_indicator {
+   display: flex;
+   flex-direction: row;
+   margin-top: -2px;
+}
+
+.value_indicator_row {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+   gap: 5px;
+}

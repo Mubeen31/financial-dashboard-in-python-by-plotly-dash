@@ -12,6 +12,10 @@ PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("./data").resolve()
 
 data = pd.read_csv(DATA_PATH.joinpath('financial_data.csv'))
+data['pct_accounts_receivable'] = (data['accounts receivable'].pct_change()) * 100
+data['pct_accounts_payable'] = (data['accounts payable'].pct_change()) * 100
+data['pct_income'] = (data['income'].pct_change()) * 100
+
 print(data.dtypes)
 
 font_awesome = "https://use.fontawesome.com/releases/v5.10.2/css/all.css"
@@ -146,11 +150,54 @@ def update_text(select_month):
     else:
         filter_month = data[data['months'] == select_month]
         accounts_receivable = filter_month['accounts receivable'].iloc[0]
+        pct_accounts_receivable = filter_month['pct_accounts_receivable'].iloc[0]
+        data['pct_accounts_receivable'] = data['pct_accounts_receivable'].fillna(0)
 
-        return [
-            html.P('${0:,.0f}'.format(accounts_receivable),
-                   ),
-        ]
+        if pct_accounts_receivable > 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(accounts_receivable),
+                           ),
+                    html.Div([
+                        html.P('+{0:,.1f}%'.format(pct_accounts_receivable),
+                               className = 'indicator1'),
+                        html.Div([
+                            html.I(className = "fas fa-caret-up",
+                                   style = {"font-size": "25px",
+                                            'color': '#00B050'},
+                                   ),
+                        ], className = 'value_indicator'),
+                    ], className = 'value_indicator_row')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_accounts_receivable < 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(accounts_receivable),
+                           ),
+                    html.Div([
+                        html.P('{0:,.1f}%'.format(pct_accounts_receivable),
+                               className = 'indicator2'),
+                        html.Div([
+                            html.I(className = "fas fa-caret-down",
+                                   style = {"font-size": "25px",
+                                            'color': '#FF3399'},
+                                   ),
+                        ], className = 'value_indicator'),
+                    ], className = 'value_indicator_row')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_accounts_receivable == 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(accounts_receivable),
+                           ),
+                    html.Div([
+                        html.P('{0:,.1f}%'.format(pct_accounts_receivable),
+                               className = 'indicator2'),
+                    ], className = 'value_indicator_row')
+                ], className = 'indicator_column'),
+            ]
 
 
 @app.callback(Output('accounts_payable_value', 'children'),
@@ -161,11 +208,54 @@ def update_text(select_month):
     else:
         filter_month = data[data['months'] == select_month]
         accounts_payable = filter_month['accounts payable'].iloc[0]
+        pct_accounts_payable = filter_month['pct_accounts_payable'].iloc[0]
+        data['pct_accounts_payable'] = data['pct_accounts_payable'].fillna(0)
 
-        return [
-            html.P('${0:,.0f}'.format(accounts_payable),
-                   ),
-        ]
+        if pct_accounts_payable > 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(accounts_payable),
+                           ),
+                    html.Div([
+                        html.P('+{0:,.1f}%'.format(pct_accounts_payable),
+                               className = 'indicator1'),
+                        html.Div([
+                            html.I(className = "fas fa-caret-up",
+                                   style = {"font-size": "25px",
+                                            'color': '#00B050'},
+                                   ),
+                        ], className = 'value_indicator'),
+                    ], className = 'value_indicator_row')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_accounts_payable < 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(accounts_payable),
+                           ),
+                    html.Div([
+                        html.P('{0:,.1f}%'.format(pct_accounts_payable),
+                               className = 'indicator2'),
+                        html.Div([
+                            html.I(className = "fas fa-caret-down",
+                                   style = {"font-size": "25px",
+                                            'color': '#FF3399'},
+                                   ),
+                        ], className = 'value_indicator'),
+                    ], className = 'value_indicator_row')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_accounts_payable == 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(accounts_payable),
+                           ),
+                    html.Div([
+                        html.P('{0:,.1f}%'.format(pct_accounts_payable),
+                               className = 'indicator2'),
+                    ], className = 'value_indicator_row')
+                ], className = 'indicator_column'),
+            ]
 
 
 @app.callback(Output('income_value', 'children'),
