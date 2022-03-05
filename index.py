@@ -70,7 +70,8 @@ html.Div([
                            className = 'format_text')
                 ], className = 'accounts_payable1'),
                 html.Div([
-
+                    html.Div(id = 'accounts_payable_value',
+                             className = 'numeric_value')
                 ], className = 'accounts_payable2')
             ], className = 'accounts_payable_column'),
         ], className = 'receivable_payable_column'),
@@ -82,7 +83,8 @@ html.Div([
                            className = 'format_text')
                 ], className = 'income1'),
                 html.Div([
-
+                    html.Div(id = 'income_value',
+                             className = 'numeric_value')
                 ], className = 'income2')
             ], className = 'income_column'),
             html.Div([
@@ -91,7 +93,8 @@ html.Div([
                            className = 'format_text')
                 ], className = 'expenses1'),
                 html.Div([
-
+                    html.Div(id = 'expenses_value',
+                             className = 'numeric_value')
                 ], className = 'expenses2')
             ], className = 'expenses_column'),
         ], className = 'income_expenses_column'),
@@ -146,6 +149,53 @@ def update_text(select_month):
 
         return [
             html.P('${0:,.0f}'.format(accounts_receivable),
+                   ),
+        ]
+
+
+@app.callback(Output('accounts_payable_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        accounts_payable = filter_month['accounts payable'].iloc[0]
+
+        return [
+            html.P('${0:,.0f}'.format(accounts_payable),
+                   ),
+        ]
+
+
+@app.callback(Output('income_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        income = filter_month['income'].iloc[0]
+
+        return [
+            html.P('${0:,.0f}'.format(income),
+                   ),
+        ]
+
+
+@app.callback(Output('expenses_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        cost_of_goods_sold = filter_month['cost of goods sold'].iloc[0]
+        total_operating_expenses = filter_month['total operating expenses'].iloc[0]
+        expenses = cost_of_goods_sold + total_operating_expenses
+
+        return [
+            html.P('${0:,.0f}'.format(expenses),
                    ),
         ]
 
