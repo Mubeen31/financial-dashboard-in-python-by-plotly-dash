@@ -13,10 +13,12 @@ DATA_PATH = PATH.joinpath("./data").resolve()
 
 data = pd.read_csv(DATA_PATH.joinpath('financial_data.csv'))
 data['pct_accounts_receivable'] = (data['accounts receivable'].pct_change()) * 100
+data['pct_accounts_receivable'] = data['pct_accounts_receivable'].fillna(0)
 data['pct_accounts_payable'] = (data['accounts payable'].pct_change()) * 100
+data['pct_accounts_payable'] = data['pct_accounts_payable'].fillna(0)
 data['pct_income'] = (data['income'].pct_change()) * 100
 
-print(data.dtypes)
+print(data['pct_accounts_payable'])
 
 font_awesome = "https://use.fontawesome.com/releases/v5.10.2/css/all.css"
 meta_tags = [{"name": "viewport", "content": "width=device-width"}]
@@ -151,7 +153,6 @@ def update_text(select_month):
         filter_month = data[data['months'] == select_month]
         accounts_receivable = filter_month['accounts receivable'].iloc[0]
         pct_accounts_receivable = filter_month['pct_accounts_receivable'].iloc[0]
-        data['pct_accounts_receivable'] = data['pct_accounts_receivable'].fillna(0)
 
         if pct_accounts_receivable > 0:
             return [
@@ -209,7 +210,6 @@ def update_text(select_month):
         filter_month = data[data['months'] == select_month]
         accounts_payable = filter_month['accounts payable'].iloc[0]
         pct_accounts_payable = filter_month['pct_accounts_payable'].iloc[0]
-        data['pct_accounts_payable'] = data['pct_accounts_payable'].fillna(0)
 
         if pct_accounts_payable > 0:
             return [
