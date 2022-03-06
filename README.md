@@ -1,3 +1,3 @@
-### kpi sales dashboard in python by plotly dash ###
+### financial dashboard in python by plotly dash ###
 
 ![](Untitled.png)
