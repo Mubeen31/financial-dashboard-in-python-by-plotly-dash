@@ -332,6 +332,7 @@ body {
   font-weight: bold;
   margin: 0 auto;
   font-family: Calibri;
+  margin-top: 7px;
 }
 
 .indicator1 {
@@ -339,7 +340,6 @@ body {
   flex-direction: row;
   color: #00B050;
   font-size: 14px;
-  margin: 0 auto;
   font-family: Calibri;
 }
 
@@ -348,7 +348,6 @@ body {
   flex-direction: row;
   color: #FF3399;
   font-size: 14px;
-  margin: 0 auto;
   font-family: Calibri;
 }
 
@@ -361,6 +360,27 @@ body {
 .value_indicator_row {
    display: flex;
    flex-direction: row;
-   align-items: center;
    gap: 5px;
+   margin: 0 auto;
+}
+
+.vs_previous_month {
+  display: flex;
+  flex-direction: row;
+  color: #7F7F7F;
+  font-size: 14px;
+  margin: 0 auto;
+  font-family: Calibri;
+  margin-top: -14px;
+}
+
+.vs_p_m_column {
+  display: flex;
+  flex-direction: column;
+}
+
+.indicator_column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

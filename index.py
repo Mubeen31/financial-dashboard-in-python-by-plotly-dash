@@ -12,11 +12,19 @@ PATH = pathlib.Path(__file__).parent
 DATA_PATH = PATH.joinpath("./data").resolve()
 
 data = pd.read_csv(DATA_PATH.joinpath('financial_data.csv'))
+
 data['pct_accounts_receivable'] = (data['accounts receivable'].pct_change()) * 100
 data['pct_accounts_receivable'] = data['pct_accounts_receivable'].fillna(0)
+
 data['pct_accounts_payable'] = (data['accounts payable'].pct_change()) * 100
 data['pct_accounts_payable'] = data['pct_accounts_payable'].fillna(0)
+
 data['pct_income'] = (data['income'].pct_change()) * 100
+data['pct_income'] = data['pct_income'].fillna(0)
+
+data['expenses'] = data['cost of goods sold'] + data['total operating expenses']
+data['pct_expenses'] = (data['expenses'].pct_change()) * 100
+data['pct_expenses'] = data['pct_expenses'].fillna(0)
 
 print(data['pct_accounts_payable'])
 
@@ -160,15 +168,19 @@ def update_text(select_month):
                     html.P('${0:,.0f}'.format(accounts_receivable),
                            ),
                     html.Div([
-                        html.P('+{0:,.1f}%'.format(pct_accounts_receivable),
-                               className = 'indicator1'),
                         html.Div([
-                            html.I(className = "fas fa-caret-up",
-                                   style = {"font-size": "25px",
-                                            'color': '#00B050'},
-                                   ),
-                        ], className = 'value_indicator'),
-                    ], className = 'value_indicator_row')
+                            html.P('+{0:,.1f}%'.format(pct_accounts_receivable),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
                 ], className = 'indicator_column'),
             ]
         elif pct_accounts_receivable < 0:
@@ -177,15 +189,19 @@ def update_text(select_month):
                     html.P('${0:,.0f}'.format(accounts_receivable),
                            ),
                     html.Div([
-                        html.P('{0:,.1f}%'.format(pct_accounts_receivable),
-                               className = 'indicator2'),
                         html.Div([
-                            html.I(className = "fas fa-caret-down",
-                                   style = {"font-size": "25px",
-                                            'color': '#FF3399'},
-                                   ),
-                        ], className = 'value_indicator'),
-                    ], className = 'value_indicator_row')
+                            html.P('{0:,.1f}%'.format(pct_accounts_receivable),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
                 ], className = 'indicator_column'),
             ]
         elif pct_accounts_receivable == 0:
@@ -194,9 +210,13 @@ def update_text(select_month):
                     html.P('${0:,.0f}'.format(accounts_receivable),
                            ),
                     html.Div([
-                        html.P('{0:,.1f}%'.format(pct_accounts_receivable),
-                               className = 'indicator2'),
-                    ], className = 'value_indicator_row')
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_accounts_receivable),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
                 ], className = 'indicator_column'),
             ]
 
@@ -217,15 +237,19 @@ def update_text(select_month):
                     html.P('${0:,.0f}'.format(accounts_payable),
                            ),
                     html.Div([
-                        html.P('+{0:,.1f}%'.format(pct_accounts_payable),
-                               className = 'indicator1'),
                         html.Div([
-                            html.I(className = "fas fa-caret-up",
-                                   style = {"font-size": "25px",
-                                            'color': '#00B050'},
-                                   ),
-                        ], className = 'value_indicator'),
-                    ], className = 'value_indicator_row')
+                            html.P('+{0:,.1f}%'.format(pct_accounts_payable),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
                 ], className = 'indicator_column'),
             ]
         elif pct_accounts_payable < 0:
@@ -234,15 +258,19 @@ def update_text(select_month):
                     html.P('${0:,.0f}'.format(accounts_payable),
                            ),
                     html.Div([
-                        html.P('{0:,.1f}%'.format(pct_accounts_payable),
-                               className = 'indicator2'),
                         html.Div([
-                            html.I(className = "fas fa-caret-down",
-                                   style = {"font-size": "25px",
-                                            'color': '#FF3399'},
-                                   ),
-                        ], className = 'value_indicator'),
-                    ], className = 'value_indicator_row')
+                            html.P('{0:,.1f}%'.format(pct_accounts_payable),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
                 ], className = 'indicator_column'),
             ]
         elif pct_accounts_payable == 0:
@@ -251,9 +279,13 @@ def update_text(select_month):
                     html.P('${0:,.0f}'.format(accounts_payable),
                            ),
                     html.Div([
-                        html.P('{0:,.1f}%'.format(pct_accounts_payable),
-                               className = 'indicator2'),
-                    ], className = 'value_indicator_row')
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_accounts_payable),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
                 ], className = 'indicator_column'),
             ]
 
@@ -266,11 +298,65 @@ def update_text(select_month):
     else:
         filter_month = data[data['months'] == select_month]
         income = filter_month['income'].iloc[0]
+        pct_income = filter_month['pct_income'].iloc[0]
 
-        return [
-            html.P('${0:,.0f}'.format(income),
-                   ),
-        ]
+        if pct_income > 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(income),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_income),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_income < 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(income),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_income),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_income == 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(income),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_income),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
 
 
 @app.callback(Output('expenses_value', 'children'),
@@ -280,14 +366,66 @@ def update_text(select_month):
         raise PreventUpdate
     else:
         filter_month = data[data['months'] == select_month]
-        cost_of_goods_sold = filter_month['cost of goods sold'].iloc[0]
-        total_operating_expenses = filter_month['total operating expenses'].iloc[0]
-        expenses = cost_of_goods_sold + total_operating_expenses
+        expenses = filter_month['expenses'].iloc[0]
+        pct_expenses = filter_month['pct_expenses'].iloc[0]
 
-        return [
-            html.P('${0:,.0f}'.format(expenses),
-                   ),
-        ]
+        if pct_expenses > 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(expenses),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_expenses),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_expenses < 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(expenses),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_expenses),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_expenses == 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(expenses),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_expenses),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
 
 
 if __name__ == "__main__":
