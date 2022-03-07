@@ -26,7 +26,15 @@ data['expenses'] = data['cost of goods sold'] + data['total operating expenses']
 data['pct_expenses'] = (data['expenses'].pct_change()) * 100
 data['pct_expenses'] = data['pct_expenses'].fillna(0)
 
-print(data['pct_accounts_payable'])
+data['gross profit'] = data['income'] - data['cost of goods sold']
+
+data['operating profit (EBIT)'] = data['gross profit'] - data['total operating expenses']
+
+data['net profit'] = data['operating profit (EBIT)'] - data['Taxes']
+
+data['net profit margin %'] = (data['net profit'] / data['income']) * 100
+
+print(data.dtypes)
 
 font_awesome = "https://use.fontawesome.com/releases/v5.10.2/css/all.css"
 meta_tags = [{"name": "viewport", "content": "width=device-width"}]
