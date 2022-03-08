@@ -213,6 +213,20 @@ body {
   border-radius: 50%;
 }
 
+.donut_chart_size {
+    display: flex;
+    flex-direction: row;
+    margin-left: -475px;
+    height: 400px;
+    margin-top: -45px;
+}
+
+.text_and_chart {
+    display: flex;
+    flex-direction: row;
+    /*margin-left: -240px;*/
+}
+
 .second_left_circle {
   display: flex;
   flex-direction: row;
@@ -269,7 +283,7 @@ body {
   justify-content: center;
   /*margin-left: 800px;
   margin-top: -230px;*/
-  margin-left: 145px;
+  margin-left: -90px;
   margin-top: 45px;
 }
 
@@ -383,4 +397,48 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.donut_chart_title {
+    display: flex;
+    flex-direction: row;
+    color: #404040;
+    font-size: 16px;
+    margin: 0 auto;
+    font-family: Calibri;
+    /*margin-top: -14px;*/
+}
+
+.donut_chart_title1 {
+    display: flex;
+    flex-direction: row;
+    color: #404040;
+    font-size: 16px;
+    margin: 0 auto;
+    font-family: Calibri;
+    /*margin-top: -14px;*/
+    margin-top: -10px;
+}
+
+.net_profit_margin_percentage {
+    display: flex;
+    flex-direction: row;
+    color: #B258D3;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto;
+    font-family: Calibri;
+    margin-top: -14px;
+}
+
+.title_and_percentage {
+    display: flex;
+    flex-direction: column;
+}
+
+.inside_donut_chart_column {
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+    margin-left: 45px;
 }
