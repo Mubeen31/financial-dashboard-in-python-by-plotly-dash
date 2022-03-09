@@ -605,9 +605,6 @@ def update_text(select_month):
                         html.P('Income Budget %',
                                className='donut_chart_title'
                                ),
-                        # html.P('Margin %',
-                        #        className='donut_chart_title1'
-                        #        ),
                         html.P('{0:,.1f}%'.format(income_budget_percentage),
                                className='net_profit_margin_percentage'),
                     ], className='title_and_percentage'),
@@ -635,9 +632,6 @@ def update_text(select_month):
                         html.P('Income Budget %',
                                className = 'donut_chart_title'
                                ),
-                        # html.P('Margin %',
-                        #        className = 'donut_chart_title1'
-                        #        ),
                         html.P('{0:,.1f}%'.format(income_budget_percentage),
                                className='net_profit_margin_percentage'),
                     ], className='title_and_percentage'),
@@ -665,9 +659,6 @@ def update_text(select_month):
                         html.P('Income Budget %',
                                className = 'donut_chart_title'
                                ),
-                        # html.P('Margin %',
-                        #        className = 'donut_chart_title1'
-                        #        ),
                         html.P('{0:,.1f}%'.format(income_budget_percentage),
                                className='net_profit_margin_percentage'),
                     ], className='title_and_percentage'),
@@ -692,7 +683,7 @@ def update_graph(select_month):
         filter_month = data[data['months'] == select_month]
         income_budget_percentage = filter_month['income budget %'].iloc[0]
         remaining_income_budget_percentage = 100 - (filter_month['income budget %'].iloc[0])
-        colors = ['#B258D3', '#82FFFF']
+        colors = ['#63A0CC', '#82FFFF']
 
     return {
         'data': [go.Pie(labels = ['', ''],
@@ -703,7 +694,7 @@ def update_graph(select_month):
                         hoverinfo = 'skip',
                         textinfo = 'text',
                         hole = .7,
-                        rotation = 90
+                        rotation = 360
                         )],
 
         'layout': go.Layout(
