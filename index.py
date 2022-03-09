@@ -40,7 +40,10 @@ data['income budget %'] = (data['income'] / data['income budget']) * 100
 data['pct_income_budget_%'] = (data['income budget %'].pct_change()) * 100
 data['pct_income_budget_%'] = data['pct_income_budget_%'].fillna(0)
 
-print(data.dtypes)
+data['pct_cost_of_goods_sold'] = (data['cost of goods sold'].pct_change()) * 100
+data['pct_cost_of_goods_sold'] = data['pct_cost_of_goods_sold'].fillna(0)
+
+print(data['cost of goods sold'])
 
 font_awesome = "https://use.fontawesome.com/releases/v5.10.2/css/all.css"
 meta_tags = [{"name": "viewport", "content": "width=device-width"}]
@@ -154,20 +157,24 @@ app.layout = html.Div([
             ], className='right_circle_row'),
             dcc.Graph(id='chart2',
                       config={'displayModeBar': False},
-                      # style={'width': '30vh', 'height': '30vh'},
                       className='donut_chart_size'),
 
             html.Div([
                 html.Div([
                     html.Div([
                         html.P('Income Statement',
-                               className='format_text')
-                    ], className='income_statement'),
+                               className = 'format_text')
+                    ], className = 'income_statement'),
 
                     html.Div([
-
-                    ], className='income_statement_multiple_values'),
-                ], className='income_statement_column1'),
+                        html.Div([
+                            html.Div(id = 'income_statement1',
+                                     className = 'income_statement1'),
+                            html.Div(id = 'income_statement2',
+                                     className = 'income_statement1')
+                        ], className = 'in_state_column')
+                    ], className = 'income_statement_multiple_values'),
+                ], className= 'income_statement_column1'),
                 html.Div([
 
                 ], className='net_profit'),
@@ -713,6 +720,152 @@ def update_graph(select_month):
         ),
 
     }
+
+
+@app.callback(Output('income_statement1', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        income = filter_month['income'].iloc[0]
+        pct_income = filter_month['pct_income'].iloc[0]
+
+    if pct_income > 0:
+        return [
+            html.Div([
+                html.Div([
+                    html.P('Income',
+                           className = 'income_statement_title'
+                           ),
+                    html.P('${0:,.0f}'.format(income),
+                           className = 'monthly_value'),
+                ], className = 'income_statement_title_and_monthly_value'),
+                html.Div([
+                    html.P('+{0:,.1f}%'.format(pct_income),
+                           className = 'indicator1'),
+                    html.Div([
+                        html.I(className = "fas fa-caret-up",
+                               style = {"font-size": "25px",
+                                        'color': '#00B050'},
+                               ),
+                    ], className = 'value_indicator'),
+                ], className = 'value_indicator_row1'),
+            ], className = 'income_statement_monthly_row'),
+        ]
+    elif pct_income < 0:
+        return [
+            html.Div([
+                html.Div([
+                    html.P('Income',
+                           className = 'income_statement_title'
+                           ),
+                    html.P('${0:,.0f}'.format(income),
+                           className = 'monthly_value'),
+                ], className = 'income_statement_title_and_monthly_value'),
+                html.Div([
+                    html.P('{0:,.1f}%'.format(pct_income),
+                           className = 'indicator2'),
+                    html.Div([
+                        html.I(className = "fas fa-caret-up",
+                               style = {"font-size": "25px",
+                                        'color': '#FF3399'},
+                               ),
+                    ], className = 'value_indicator'),
+                ], className = 'value_indicator_row1'),
+            ], className = 'income_statement_monthly_row'),
+        ]
+
+    elif pct_income == 0:
+        return [
+            html.Div([
+                html.Div([
+                    html.P('Income',
+                           className = 'income_statement_title'
+                           ),
+                    html.P('${0:,.0f}'.format(income),
+                           className = 'monthly_value'),
+                ], className = 'income_statement_title_and_monthly_value'),
+                html.Div([
+                    html.P('{0:,.1f}%'.format(pct_income),
+                           className = 'indicator2'),
+                ], className = 'value_indicator_row1'),
+            ], className = 'income_statement_monthly_row'),
+        ]
+
+
+@app.callback(Output('income_statement2', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        cost_of_goods_sold = filter_month['cost of goods sold'].iloc[0]
+        pct_cost_of_goods_sold = filter_month['pct_cost_of_goods_sold'].iloc[0]
+
+    if pct_cost_of_goods_sold > 0:
+        return [
+            html.Div([
+                html.Div([
+                    html.P('Cost of Goods Sold',
+                           className = 'income_statement_title'
+                           ),
+                    html.P('${0:,.0f}'.format(cost_of_goods_sold),
+                           className = 'monthly_value'),
+                ], className = 'income_statement_title_and_monthly_value1'),
+                html.Div([
+                    html.P('+{0:,.1f}%'.format(pct_cost_of_goods_sold),
+                           className = 'indicator1'),
+                    html.Div([
+                        html.I(className = "fas fa-caret-up",
+                               style = {"font-size": "25px",
+                                        'color': '#00B050'},
+                               ),
+                    ], className = 'value_indicator'),
+                ], className = 'value_indicator_row1'),
+            ], className = 'income_statement_monthly_row'),
+        ]
+    elif pct_cost_of_goods_sold < 0:
+        return [
+            html.Div([
+                html.Div([
+                    html.P('Cost of Goods Sold',
+                           className = 'income_statement_title'
+                           ),
+                    html.P('${0:,.0f}'.format(cost_of_goods_sold),
+                           className = 'monthly_value'),
+                ], className = 'income_statement_title_and_monthly_value1'),
+                html.Div([
+                    html.P('{0:,.1f}%'.format(pct_cost_of_goods_sold),
+                           className = 'indicator2'),
+                    html.Div([
+                        html.I(className = "fas fa-caret-up",
+                               style = {"font-size": "25px",
+                                        'color': '#FF3399'},
+                               ),
+                    ], className = 'value_indicator'),
+                ], className = 'value_indicator_row1'),
+            ], className = 'income_statement_monthly_row'),
+        ]
+
+    elif pct_cost_of_goods_sold == 0:
+        return [
+            html.Div([
+                html.Div([
+                    html.P('Cost of Goods Sold',
+                           className = 'income_statement_title'
+                           ),
+                    html.P('${0:,.0f}'.format(cost_of_goods_sold),
+                           className = 'monthly_value'),
+                ], className = 'income_statement_title_and_monthly_value1'),
+                html.Div([
+                    html.P('{0:,.1f}%'.format(pct_cost_of_goods_sold),
+                           className = 'indicator2'),
+                ], className = 'value_indicator_row1'),
+            ], className = 'income_statement_monthly_row'),
+        ]
 
 
 if __name__ == "__main__":

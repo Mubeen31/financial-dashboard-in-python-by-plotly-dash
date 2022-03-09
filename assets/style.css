@@ -295,6 +295,18 @@ body {
   height: 30px;
 }
 
+.income_statement1 {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.in_state_column {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
 .income_statement_multiple_values {
   display: flex;
   flex-direction: row;
@@ -442,4 +454,47 @@ body {
     flex-direction: column;
     margin-top: 40px;
     margin-left: 45px;
+}
+
+.income_statement_title {
+    display: flex;
+    flex-direction: row;
+    color: #404040;
+    font-size: 15px;
+    font-family: Calibri;
+    white-space: pre;
+}
+
+.monthly_value {
+    display: flex;
+    flex-direction: row;
+    color: #404040;
+    font-size: 15px;
+    font-family: Calibri;
+}
+
+.income_statement_title_and_monthly_value {
+    display: flex;
+    flex-direction: row;
+    column-gap: 150px;
+}
+
+.income_statement_title_and_monthly_value1 {
+    display: flex;
+    flex-direction: row;
+    column-gap: 90px;
+}
+
+.value_indicator_row1 {
+   display: flex;
+   flex-direction: row;
+   gap: 5px;
+   margin: 0 auto;
+   margin-top: 2px;
+}
+
+.income_statement_monthly_row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 50px;
 }
