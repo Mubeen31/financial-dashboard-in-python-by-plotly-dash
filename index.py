@@ -152,8 +152,9 @@ app.layout = html.Div([
                     ], className='second_right_circle'),
                 ], className='first_second_right_column'),
             ], className='right_circle_row'),
-            dcc.Graph(id='chart1',
+            dcc.Graph(id='chart2',
                       config={'displayModeBar': False},
+                      # style={'width': '30vh', 'height': '30vh'},
                       className='donut_chart_size'),
 
             html.Div([
@@ -573,7 +574,7 @@ def update_graph(select_month):
         'layout': go.Layout(
             plot_bgcolor = 'rgba(0,0,0,0)',
             paper_bgcolor = 'rgba(0,0,0,0)',
-            # margin = dict(t = 100, b = 100, r = 80, l = 80),
+            margin = dict(t = 35, b = 0, r = 0, l = 0),
             showlegend = False,
             title={'text': '',
                    'y': 0.95,
@@ -680,6 +681,47 @@ def update_text(select_month):
                     ], className='vs_p_m_column')
                 ], className='inside_donut_chart_column'),
             ]
+
+
+@app.callback(Output('chart2', 'figure'),
+              [Input('select_month', 'value')])
+def update_graph(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        income_budget_percentage = filter_month['income budget %'].iloc[0]
+        remaining_income_budget_percentage = 100 - (filter_month['income budget %'].iloc[0])
+        colors = ['#B258D3', '#82FFFF']
+
+    return {
+        'data': [go.Pie(labels = ['', ''],
+                        values = [income_budget_percentage, remaining_income_budget_percentage],
+                        marker = dict(colors = colors,
+                                      # line=dict(color='#DEB340', width=2)
+                                      ),
+                        hoverinfo = 'skip',
+                        textinfo = 'text',
+                        hole = .7,
+                        rotation = 90
+                        )],
+
+        'layout': go.Layout(
+            plot_bgcolor = 'rgba(0,0,0,0)',
+            paper_bgcolor = 'rgba(0,0,0,0)',
+            autosize = True,
+            margin = dict(t = 35, b = 0, r = 0, l = 0),
+            showlegend = False,
+            title={'text': '',
+                   'y': 0.95,
+                   'x': 0.5,
+                   'xanchor': 'center',
+                   'yanchor': 'top'},
+            titlefont = {'color': 'white',
+                         'size': 15},
+        ),
+
+    }
 
 
 if __name__ == "__main__":
