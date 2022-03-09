@@ -133,9 +133,7 @@ app.layout = html.Div([
                     html.Div([
                     ], className='first_left_circle'),
                     html.Div([
-
                         html.Div(id='second_left_circle'),
-
                     ], className='second_left_circle'),
                 ], className='first_second_left_column'),
             ], className='left_circle_row'),
@@ -150,9 +148,13 @@ app.layout = html.Div([
                     html.Div([
                     ], className='first_right_circle'),
                     html.Div([
+                        html.Div(id='second_right_circle'),
                     ], className='second_right_circle'),
                 ], className='first_second_right_column'),
             ], className='right_circle_row'),
+            dcc.Graph(id='chart1',
+                      config={'displayModeBar': False},
+                      className='donut_chart_size'),
 
             html.Div([
                 html.Div([
@@ -583,6 +585,101 @@ def update_graph(select_month):
         ),
 
     }
+
+
+@app.callback(Output('second_right_circle', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        income_budget_percentage = filter_month['income budget %'].iloc[0]
+        pct_income_budget_percentage = filter_month['pct_income_budget_%'].iloc[0]
+
+        if pct_income_budget_percentage > 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Income Budget %',
+                               className='donut_chart_title'
+                               ),
+                        # html.P('Margin %',
+                        #        className='donut_chart_title1'
+                        #        ),
+                        html.P('{0:,.1f}%'.format(income_budget_percentage),
+                               className='net_profit_margin_percentage'),
+                    ], className='title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_income_budget_percentage),
+                                   className='indicator1'),
+                            html.Div([
+                                html.I(className="fas fa-caret-up",
+                                       style={"font-size": "25px",
+                                              'color': '#00B050'},
+                                       ),
+                            ], className='value_indicator'),
+                        ], className='value_indicator_row'),
+                        html.P('vs previous month',
+                               className='vs_previous_month')
+                    ], className='vs_p_m_column')
+                ], className='inside_donut_chart_column'),
+            ]
+
+        if pct_income_budget_percentage < 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Income Budget %',
+                               className = 'donut_chart_title'
+                               ),
+                        # html.P('Margin %',
+                        #        className = 'donut_chart_title1'
+                        #        ),
+                        html.P('{0:,.1f}%'.format(income_budget_percentage),
+                               className='net_profit_margin_percentage'),
+                    ], className='title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_income_budget_percentage),
+                                   className='indicator2'),
+                            html.Div([
+                                html.I(className="fas fa-caret-down",
+                                       style={"font-size": "25px",
+                                              'color': '#FF3399'},
+                                       ),
+                            ], className='value_indicator'),
+                        ], className='value_indicator_row'),
+                        html.P('vs previous month',
+                               className='vs_previous_month')
+                    ], className='vs_p_m_column')
+                ], className='inside_donut_chart_column'),
+            ]
+
+        if pct_income_budget_percentage == 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Income Budget %',
+                               className = 'donut_chart_title'
+                               ),
+                        # html.P('Margin %',
+                        #        className = 'donut_chart_title1'
+                        #        ),
+                        html.P('{0:,.1f}%'.format(income_budget_percentage),
+                               className='net_profit_margin_percentage'),
+                    ], className='title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_income_budget_percentage),
+                                   className='indicator2'),
+                        ], className='value_indicator_row'),
+                        html.P('vs previous month',
+                               className='vs_previous_month')
+                    ], className='vs_p_m_column')
+                ], className='inside_donut_chart_column'),
+            ]
 
 
 if __name__ == "__main__":
