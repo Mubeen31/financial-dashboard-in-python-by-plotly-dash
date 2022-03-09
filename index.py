@@ -38,6 +38,7 @@ data['pct_net_profit_margin_%'] = data['pct_net_profit_margin_%'].fillna(0)
 
 data['income budget %'] = (data['income'] / data['income budget']) * 100
 data['pct_income_budget_%'] = (data['income budget %'].pct_change()) * 100
+data['pct_income_budget_%'] = data['pct_income_budget_%'].fillna(0)
 
 print(data.dtypes)
 
@@ -493,8 +494,11 @@ def update_text(select_month):
             return [
                 html.Div([
                     html.Div([
-                        html.P('Net Profit Margin %',
-                               className='donut_chart_title'
+                        html.P('Net Profit',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('Margin %',
+                               className = 'donut_chart_title1'
                                ),
                         html.P('{0:,.1f}%'.format(net_profit_margin_percentage),
                                className='net_profit_margin_percentage'),
@@ -520,8 +524,11 @@ def update_text(select_month):
             return [
                 html.Div([
                     html.Div([
-                        html.P('Net Profit Margin %',
-                               className='donut_chart_title'
+                        html.P('Net Profit',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('Margin %',
+                               className = 'donut_chart_title1'
                                ),
                         html.P('{0:,.1f}%'.format(net_profit_margin_percentage),
                                className='net_profit_margin_percentage'),
