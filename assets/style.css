@@ -314,6 +314,7 @@ body {
   display: flex;
   flex-direction: row;
   column-gap: 130px;
+  margin-top: 8px;
 }
 
 .income_statement_indicator_row2 {
