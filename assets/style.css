@@ -295,10 +295,65 @@ body {
   height: 30px;
 }
 
+.income_statement_title {
+    display: flex;
+    flex-direction: row;
+    color: #404040;
+    font-size: 15px;
+    font-family: Calibri;
+    white-space: pre;
+}
+
 .income_statement1 {
   display: flex;
   flex-direction: row;
-  margin: 0 auto;
+  /*margin: 0 auto;*/
+}
+
+.income_statement_indicator_row1 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 130px;
+}
+
+.income_statement_indicator_row2 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 70px;
+}
+
+.income_statement_indicator_row3 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 105px;
+  margin-top: -25px;
+}
+
+.income_statement_indicator_row4 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 23px;
+}
+
+.income_statement_indicator_row5 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 40px;
+  margin-top: -25px;
+}
+
+.income_statement_indicator_row6 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 154px;
+}
+
+.bottom_border {
+  display: flex;
+  flex-direction: row;
+  width: 160px;
+  margin-top: -10px;
+  margin-left: 170px;
 }
 
 .in_state_column {
@@ -456,15 +511,6 @@ body {
     margin-left: 45px;
 }
 
-.income_statement_title {
-    display: flex;
-    flex-direction: row;
-    color: #404040;
-    font-size: 15px;
-    font-family: Calibri;
-    white-space: pre;
-}
-
 .monthly_value {
     display: flex;
     flex-direction: row;
@@ -473,17 +519,17 @@ body {
     font-family: Calibri;
 }
 
-.income_statement_title_and_monthly_value {
+/*.income_statement_title_and_monthly_value {
     display: flex;
     flex-direction: row;
-    column-gap: 150px;
+    column-gap: 200px;
 }
 
 .income_statement_title_and_monthly_value1 {
     display: flex;
     flex-direction: row;
     column-gap: 90px;
-}
+}*/
 
 .value_indicator_row1 {
    display: flex;
