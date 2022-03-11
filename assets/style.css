@@ -523,6 +523,17 @@ body {
     margin-top: -14px;
 }
 
+.net_profit_margin_percentage2 {
+    display: flex;
+    flex-direction: row;
+    color: #8AC4A7;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto;
+    font-family: Calibri;
+    margin-top: -14px;
+}
+
 .title_and_percentage {
     display: flex;
     flex-direction: column;

@@ -40,6 +40,15 @@ data['pct_operating_profit_(EBIT)'] = data['pct_operating_profit_(EBIT)'].fillna
 data['pct_taxes'] = (data['Taxes'].pct_change()) * 100
 data['pct_taxes'] = data['pct_taxes'].fillna(0)
 
+data['pct_quick_ratio'] = (data['quick ratio'].pct_change()) * 100
+data['pct_quick_ratio'] = data['pct_quick_ratio'].fillna(0)
+
+data['pct_current_ratio'] = (data['current ratio'].pct_change()) * 100
+data['pct_current_ratio'] = data['pct_current_ratio'].fillna(0)
+
+data['pct_cash_at_eom'] = (data['cash at eom'].pct_change()) * 100
+data['pct_cash_at_eom'] = data['pct_cash_at_eom'].fillna(0)
+
 data['net profit'] = data['operating profit (EBIT)'] - data['Taxes']
 data['pct_net_profit'] = (data['net profit'].pct_change()) * 100
 data['pct_net_profit'] = data['pct_net_profit'].fillna(0)
@@ -51,6 +60,10 @@ data['pct_net_profit_margin_%'] = data['pct_net_profit_margin_%'].fillna(0)
 data['income budget %'] = (data['income'] / data['income budget']) * 100
 data['pct_income_budget_%'] = (data['income budget %'].pct_change()) * 100
 data['pct_income_budget_%'] = data['pct_income_budget_%'].fillna(0)
+
+data['expense budget %'] = (data['expenses'] / data['expense budget']) * 100
+data['pct_expense_budget_%'] = (data['expense budget %'].pct_change()) * 100
+data['pct_expense_budget_%'] = data['pct_expense_budget_%'].fillna(0)
 
 data['pct_cost_of_goods_sold'] = (data['cost of goods sold'].pct_change()) * 100
 data['pct_cost_of_goods_sold'] = data['pct_cost_of_goods_sold'].fillna(0)
@@ -240,7 +253,155 @@ app.layout = html.Div([
                 ], className = 'net_profit'),
             ], className = 'net_profit1'),
         ], className = 'income_statement_row')
-    ], className = 'f_row')
+    ], className = 'f_row'),
+
+    html.Div([
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.P('Quick Ratio',
+                               className = 'format_text')
+                    ], className = 'accounts_receivable1'),
+                    html.Div([
+                        html.Div(id = 'quick_ratio_value',
+                                 className = 'numeric_value')
+                    ], className = 'accounts_receivable2')
+                ], className = 'accounts_receivable_column'),
+                html.Div([
+                    html.Div([
+                        html.P('Current Ratio',
+                               className = 'format_text')
+                    ], className = 'accounts_payable1'),
+                    html.Div([
+                        html.Div(id = 'current_ratio_value',
+                                 className = 'numeric_value')
+                    ], className = 'accounts_payable2')
+                ], className = 'accounts_payable_column'),
+            ], className = 'receivable_payable_column'),
+
+            html.Div([
+                html.Div([
+                    html.Div([
+                        html.P('Net Profit',
+                               className = 'format_text')
+                    ], className = 'income1'),
+                    html.Div([
+                        html.Div(id = 'net_profit_value',
+                                 className = 'numeric_value')
+                    ], className = 'income2')
+                ], className = 'income_column'),
+                html.Div([
+                    html.Div([
+                        html.P('Cash at EOM',
+                               className = 'format_text')
+                    ], className = 'expenses1'),
+                    html.Div([
+                        html.Div(id = 'cash_at_eom_value',
+                                 className = 'numeric_value')
+                    ], className = 'expenses2')
+                ], className = 'expenses_column'),
+            ], className = 'income_expenses_column'),
+        ], className = 'first_row'),
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.Div([
+                    ], className = 'first_left_circle'),
+                    html.Div([
+                        html.Div(id = 'third_left_circle'),
+                    ], className = 'second_left_circle'),
+                ], className = 'first_second_left_column'),
+            ], className = 'left_circle_row'),
+            dcc.Graph(id = 'chart3',
+                      config = {'displayModeBar': False},
+                      className = 'donut_chart_size'),
+        ], className = 'text_and_chart'),
+
+        html.Div([
+            html.Div([
+                html.Div([
+                    html.Div([
+                    ], className = 'first_right_circle'),
+                    html.Div([
+                        html.Div(id = 'fourth_right_circle'),
+                    ], className = 'second_right_circle'),
+                ], className = 'first_second_right_column'),
+            ], className = 'right_circle_row'),
+            dcc.Graph(id = 'chart4',
+                      config = {'displayModeBar': False},
+                      className = 'donut_chart_size'),
+
+            #     html.Div([
+            #         html.Div([
+            #             html.Div([
+            #                 html.P('Income Statement',
+            #                        className = 'format_text')
+            #             ], className = 'income_statement'),
+            #
+            #             html.Div([
+            #                 html.Div([
+            #                     html.Div([
+            #                         html.P('Income',
+            #                                className = 'income_statement_title'
+            #                                ),
+            #                         html.Div(id = 'income_statement1',
+            #                                  className = 'income_statement1'),
+            #                     ], className = 'income_statement_indicator_row1'),
+            #                     html.Div([
+            #                         html.P('Cost of Goods Sold',
+            #                                className = 'income_statement_title'
+            #                                ),
+            #                         html.Div(id = 'income_statement2',
+            #                                  className = 'income_statement1')
+            #                     ], className = 'income_statement_indicator_row2'),
+            #                     html.Hr(className = 'bottom_border'),
+            #                     html.Div([
+            #                         html.P('Gross Profit',
+            #                                className = 'income_statement_title'
+            #                                ),
+            #                         html.Div(id = 'income_statement3',
+            #                                  className = 'income_statement1'),
+            #                     ], className = 'income_statement_indicator_row3'),
+            #                     html.Div([
+            #                         html.P('Total Operating Expenses',
+            #                                className = 'income_statement_title'
+            #                                ),
+            #                         html.Div(id = 'income_statement4',
+            #                                  className = 'income_statement1')
+            #                     ], className = 'income_statement_indicator_row4'),
+            #                     html.Hr(className = 'bottom_border'),
+            #                     html.Div([
+            #                         html.P('Operating Profit (EBIT)',
+            #                                className = 'income_statement_title'
+            #                                ),
+            #                         html.Div(id = 'income_statement5',
+            #                                  className = 'income_statement1'),
+            #                     ], className = 'income_statement_indicator_row5'),
+            #                     html.Div([
+            #                         html.P('Taxes',
+            #                                className = 'income_statement_title'
+            #                                ),
+            #                         html.Div(id = 'income_statement6',
+            #                                  className = 'income_statement1')
+            #                     ], className = 'income_statement_indicator_row6'),
+            #                 ], className = 'in_state_column')
+            #             ], className = 'income_statement_multiple_values'),
+            #         ], className = 'income_statement_column1'),
+            #         html.Div([
+            #             html.Div([
+            #                 html.Div([
+            #                     html.P('Net Profit',
+            #                            className = 'income_statement_title'
+            #                            ),
+            #                     html.Div(id = 'income_statement7',
+            #                              className = 'income_statement1')
+            #                 ], className = 'income_statement_indicator_row7'),
+            #             ], className = 'net_profit_column')
+            #         ], className = 'net_profit'),
+            #     ], className = 'net_profit1'),
+        ], className = 'income_statement_row')
+    ], className = 'f_row'),
 ])
 
 
@@ -1257,6 +1418,543 @@ def update_text(select_month):
                 ], className = 'value_indicator_row1'),
             ], className = 'income_statement_monthly_row'),
         ]
+
+
+@app.callback(Output('quick_ratio_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        quick_ratio = filter_month['quick ratio'].iloc[0]
+        pct_quick_ratio = filter_month['pct_quick_ratio'].iloc[0]
+
+        if pct_quick_ratio > 0:
+            return [
+                html.Div([
+                    html.P('{0:,.2f}'.format(quick_ratio),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_quick_ratio),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_quick_ratio < 0:
+            return [
+                html.Div([
+                    html.P('{0:,.2f}'.format(quick_ratio),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_quick_ratio),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_quick_ratio == 0:
+            return [
+                html.Div([
+                    html.P('{0:,.2f}'.format(quick_ratio),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_quick_ratio),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+
+
+@app.callback(Output('current_ratio_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        current_ratio = filter_month['current ratio'].iloc[0]
+        pct_current_ratio = filter_month['pct_current_ratio'].iloc[0]
+
+        if pct_current_ratio > 0:
+            return [
+                html.Div([
+                    html.P('{0:,.2f}'.format(current_ratio),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_current_ratio),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_current_ratio < 0:
+            return [
+                html.Div([
+                    html.P('{0:,.2f}'.format(current_ratio),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_current_ratio),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_current_ratio == 0:
+            return [
+                html.Div([
+                    html.P('{0:,.2f}'.format(current_ratio),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_current_ratio),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+
+
+@app.callback(Output('net_profit_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        net_profit = filter_month['net profit'].iloc[0]
+        pct_net_profit = filter_month['pct_net_profit'].iloc[0]
+
+        if pct_net_profit > 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(net_profit),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_net_profit),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_net_profit < 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(net_profit),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_net_profit),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_net_profit == 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(net_profit),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_net_profit),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+
+
+@app.callback(Output('cash_at_eom_value', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        cash_at_eom = filter_month['cash at eom'].iloc[0]
+        pct_cash_at_eom = filter_month['pct_cash_at_eom'].iloc[0]
+
+        if pct_cash_at_eom > 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(cash_at_eom),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_cash_at_eom),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_cash_at_eom < 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(cash_at_eom),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_cash_at_eom),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+        elif pct_cash_at_eom == 0:
+            return [
+                html.Div([
+                    html.P('${0:,.0f}'.format(cash_at_eom),
+                           ),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_cash_at_eom),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'indicator_column'),
+            ]
+
+
+@app.callback(Output('third_left_circle', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        net_profit_margin_percentage = filter_month['net profit margin %'].iloc[0]
+        pct_net_profit_margin_percentage = filter_month['pct_net_profit_margin_%'].iloc[0]
+        net_profit_margin_percentage_target = float(10.0)
+        net_profit_margin_vs_target_margin = net_profit_margin_percentage - net_profit_margin_percentage_target
+
+        if net_profit_margin_vs_target_margin > 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Net Profit Margin',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('% vs Target',
+                               className = 'donut_chart_title1'
+                               ),
+                    ], className = 'title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(net_profit_margin_vs_target_margin),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('Target: 10.0%',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'inside_donut_chart_column'),
+            ]
+
+        if net_profit_margin_vs_target_margin < 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Net Profit Margin',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('% vs Target',
+                               className = 'donut_chart_title1'
+                               ),
+                    ], className = 'title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(net_profit_margin_vs_target_margin),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('Target: 10.0%',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'inside_donut_chart_column'),
+            ]
+
+        if net_profit_margin_vs_target_margin == 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Net Profit Margin',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('% vs Target',
+                               className = 'donut_chart_title1'
+                               ),
+                    ], className = 'title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(net_profit_margin_vs_target_margin),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('Target: 10.0%',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'inside_donut_chart_column'),
+            ]
+
+
+@app.callback(Output('chart3', 'figure'),
+              [Input('select_month', 'value')])
+def update_graph(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        net_profit_margin_percentage = filter_month['net profit margin %'].iloc[0]
+        pct_net_profit_margin_percentage = filter_month['pct_net_profit_margin_%'].iloc[0]
+        net_profit_margin_percentage_target = float(10.0)
+        net_profit_margin_vs_target_margin = net_profit_margin_percentage - net_profit_margin_percentage_target
+        remaining_net_profit_margin_vs_target_margin = 100 - (net_profit_margin_vs_target_margin)
+        colors = ['#D35940', '#82FFFF']
+
+    return {
+        'data': [go.Pie(labels = ['', ''],
+                        values = [net_profit_margin_vs_target_margin, remaining_net_profit_margin_vs_target_margin],
+                        marker = dict(colors = colors,
+                                      # line=dict(color='#DEB340', width=2)
+                                      ),
+                        hoverinfo = 'skip',
+                        textinfo = 'text',
+                        hole = .7,
+                        rotation = 90
+                        )],
+
+        'layout': go.Layout(
+            plot_bgcolor = 'rgba(0,0,0,0)',
+            paper_bgcolor = 'rgba(0,0,0,0)',
+            margin = dict(t = 35, b = 0, r = 0, l = 0),
+            showlegend = False,
+            title = {'text': '',
+                     'y': 0.95,
+                     'x': 0.5,
+                     'xanchor': 'center',
+                     'yanchor': 'top'},
+            titlefont = {'color': 'white',
+                         'size': 15},
+        ),
+
+    }
+
+
+@app.callback(Output('fourth_right_circle', 'children'),
+              [Input('select_month', 'value')])
+def update_text(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        expense_budget_percentage = filter_month['expense budget %'].iloc[0]
+        pct_expense_budget_percentage = filter_month['pct_expense_budget_%'].iloc[0]
+
+        if pct_expense_budget_percentage > 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Expense Budget %',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('{0:,.1f}%'.format(expense_budget_percentage),
+                               className = 'net_profit_margin_percentage2'),
+                    ], className = 'title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('+{0:,.1f}%'.format(pct_expense_budget_percentage),
+                                   className = 'indicator1'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-up",
+                                       style = {"font-size": "25px",
+                                                'color': '#00B050'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'inside_donut_chart_column'),
+            ]
+
+        if pct_expense_budget_percentage < 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Expense Budget %',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('{0:,.1f}%'.format(expense_budget_percentage),
+                               className = 'net_profit_margin_percentage2'),
+                    ], className = 'title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_expense_budget_percentage),
+                                   className = 'indicator2'),
+                            html.Div([
+                                html.I(className = "fas fa-caret-down",
+                                       style = {"font-size": "25px",
+                                                'color': '#FF3399'},
+                                       ),
+                            ], className = 'value_indicator'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'inside_donut_chart_column'),
+            ]
+
+        if pct_expense_budget_percentage == 0:
+            return [
+                html.Div([
+                    html.Div([
+                        html.P('Expense Budget %',
+                               className = 'donut_chart_title'
+                               ),
+                        html.P('{0:,.1f}%'.format(expense_budget_percentage),
+                               className = 'net_profit_margin_percentage2'),
+                    ], className = 'title_and_percentage'),
+                    html.Div([
+                        html.Div([
+                            html.P('{0:,.1f}%'.format(pct_expense_budget_percentage),
+                                   className = 'indicator2'),
+                        ], className = 'value_indicator_row'),
+                        html.P('vs previous month',
+                               className = 'vs_previous_month')
+                    ], className = 'vs_p_m_column')
+                ], className = 'inside_donut_chart_column'),
+            ]
+
+
+@app.callback(Output('chart4', 'figure'),
+              [Input('select_month', 'value')])
+def update_graph(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        expense_budget_percentage = filter_month['expense budget %'].iloc[0]
+        remaining_expense_budget_percentage = 100 - (filter_month['expense budget %'].iloc[0])
+        colors = ['#8AC4A7', '#82FFFF']
+
+    return {
+        'data': [go.Pie(labels = ['', ''],
+                        values = [expense_budget_percentage, remaining_expense_budget_percentage],
+                        marker = dict(colors = colors,
+                                      # line=dict(color='#DEB340', width=2)
+                                      ),
+                        hoverinfo = 'skip',
+                        textinfo = 'text',
+                        hole = .7,
+                        rotation = 360
+                        )],
+
+        'layout': go.Layout(
+            plot_bgcolor = 'rgba(0,0,0,0)',
+            paper_bgcolor = 'rgba(0,0,0,0)',
+            autosize = True,
+            margin = dict(t = 35, b = 0, r = 0, l = 0),
+            showlegend = False,
+            title = {'text': '',
+                     'y': 0.95,
+                     'x': 0.5,
+                     'xanchor': 'center',
+                     'yanchor': 'top'},
+            titlefont = {'color': 'white',
+                         'size': 15},
+        ),
+
+    }
 
 
 if __name__ == "__main__":
