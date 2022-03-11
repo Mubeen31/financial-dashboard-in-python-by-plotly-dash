@@ -700,7 +700,7 @@ def update_text(select_month):
                                className = 'donut_chart_title'
                                ),
                         html.P('{0:,.1f}%'.format(income_budget_percentage),
-                               className = 'net_profit_margin_percentage'),
+                               className = 'net_profit_margin_percentage1'),
                     ], className = 'title_and_percentage'),
                     html.Div([
                         html.Div([
@@ -727,7 +727,7 @@ def update_text(select_month):
                                className = 'donut_chart_title'
                                ),
                         html.P('{0:,.1f}%'.format(income_budget_percentage),
-                               className = 'net_profit_margin_percentage'),
+                               className = 'net_profit_margin_percentage1'),
                     ], className = 'title_and_percentage'),
                     html.Div([
                         html.Div([
