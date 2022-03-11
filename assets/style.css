@@ -349,6 +349,18 @@ body {
   column-gap: 154px;
 }
 
+.income_statement_indicator_row7 {
+  display: flex;
+  flex-direction: row;
+  column-gap: 128px;
+}
+
+.net_profit_column {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
 .bottom_border {
   display: flex;
   flex-direction: row;
@@ -500,6 +512,17 @@ body {
     margin-top: -14px;
 }
 
+.net_profit_margin_percentage1 {
+    display: flex;
+    flex-direction: row;
+    color: #63A0CC;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto;
+    font-family: Calibri;
+    margin-top: -14px;
+}
+
 .title_and_percentage {
     display: flex;
     flex-direction: column;
@@ -516,6 +539,14 @@ body {
     display: flex;
     flex-direction: row;
     color: #404040;
+    font-size: 15px;
+    font-family: Calibri;
+}
+
+.monthly_value1 {
+    display: flex;
+    flex-direction: row;
+    color: #FF0000;
     font-size: 15px;
     font-family: Calibri;
 }
