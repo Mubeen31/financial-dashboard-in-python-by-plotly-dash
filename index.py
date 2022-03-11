@@ -332,74 +332,77 @@ app.layout = html.Div([
                       config = {'displayModeBar': False},
                       className = 'donut_chart_size'),
 
-            #     html.Div([
-            #         html.Div([
-            #             html.Div([
-            #                 html.P('Income Statement',
-            #                        className = 'format_text')
-            #             ], className = 'income_statement'),
-            #
-            #             html.Div([
-            #                 html.Div([
-            #                     html.Div([
-            #                         html.P('Income',
-            #                                className = 'income_statement_title'
-            #                                ),
-            #                         html.Div(id = 'income_statement1',
-            #                                  className = 'income_statement1'),
-            #                     ], className = 'income_statement_indicator_row1'),
-            #                     html.Div([
-            #                         html.P('Cost of Goods Sold',
-            #                                className = 'income_statement_title'
-            #                                ),
-            #                         html.Div(id = 'income_statement2',
-            #                                  className = 'income_statement1')
-            #                     ], className = 'income_statement_indicator_row2'),
-            #                     html.Hr(className = 'bottom_border'),
-            #                     html.Div([
-            #                         html.P('Gross Profit',
-            #                                className = 'income_statement_title'
-            #                                ),
-            #                         html.Div(id = 'income_statement3',
-            #                                  className = 'income_statement1'),
-            #                     ], className = 'income_statement_indicator_row3'),
-            #                     html.Div([
-            #                         html.P('Total Operating Expenses',
-            #                                className = 'income_statement_title'
-            #                                ),
-            #                         html.Div(id = 'income_statement4',
-            #                                  className = 'income_statement1')
-            #                     ], className = 'income_statement_indicator_row4'),
-            #                     html.Hr(className = 'bottom_border'),
-            #                     html.Div([
-            #                         html.P('Operating Profit (EBIT)',
-            #                                className = 'income_statement_title'
-            #                                ),
-            #                         html.Div(id = 'income_statement5',
-            #                                  className = 'income_statement1'),
-            #                     ], className = 'income_statement_indicator_row5'),
-            #                     html.Div([
-            #                         html.P('Taxes',
-            #                                className = 'income_statement_title'
-            #                                ),
-            #                         html.Div(id = 'income_statement6',
-            #                                  className = 'income_statement1')
-            #                     ], className = 'income_statement_indicator_row6'),
-            #                 ], className = 'in_state_column')
-            #             ], className = 'income_statement_multiple_values'),
-            #         ], className = 'income_statement_column1'),
-            #         html.Div([
-            #             html.Div([
-            #                 html.Div([
-            #                     html.P('Net Profit',
-            #                            className = 'income_statement_title'
-            #                            ),
-            #                     html.Div(id = 'income_statement7',
-            #                              className = 'income_statement1')
-            #                 ], className = 'income_statement_indicator_row7'),
-            #             ], className = 'net_profit_column')
-            #         ], className = 'net_profit'),
-            #     ], className = 'net_profit1'),
+            html.Div([
+                #     html.Div([
+                #             html.Div([
+                #                 html.P('Income Statement',
+                #                        className = 'format_text')
+                #             ], className = 'income_statement'),
+                #
+                #             html.Div([
+                #                 html.Div([
+                #                     html.Div([
+                #                         html.P('Income',
+                #                                className = 'income_statement_title'
+                #                                ),
+                #                         html.Div(id = 'income_statement1',
+                #                                  className = 'income_statement1'),
+                #                     ], className = 'income_statement_indicator_row1'),
+                #                     html.Div([
+                #                         html.P('Cost of Goods Sold',
+                #                                className = 'income_statement_title'
+                #                                ),
+                #                         html.Div(id = 'income_statement2',
+                #                                  className = 'income_statement1')
+                #                     ], className = 'income_statement_indicator_row2'),
+                #                     html.Hr(className = 'bottom_border'),
+                #                     html.Div([
+                #                         html.P('Gross Profit',
+                #                                className = 'income_statement_title'
+                #                                ),
+                #                         html.Div(id = 'income_statement3',
+                #                                  className = 'income_statement1'),
+                #                     ], className = 'income_statement_indicator_row3'),
+                #                     html.Div([
+                #                         html.P('Total Operating Expenses',
+                #                                className = 'income_statement_title'
+                #                                ),
+                #                         html.Div(id = 'income_statement4',
+                #                                  className = 'income_statement1')
+                #                     ], className = 'income_statement_indicator_row4'),
+                #                     html.Hr(className = 'bottom_border'),
+                #                     html.Div([
+                #                         html.P('Operating Profit (EBIT)',
+                #                                className = 'income_statement_title'
+                #                                ),
+                #                         html.Div(id = 'income_statement5',
+                #                                  className = 'income_statement1'),
+                #                     ], className = 'income_statement_indicator_row5'),
+                #                     html.Div([
+                #                         html.P('Taxes',
+                #                                className = 'income_statement_title'
+                #                                ),
+                #                         html.Div(id = 'income_statement6',
+                #                                  className = 'income_statement1')
+                #                     ], className = 'income_statement_indicator_row6'),
+                #                 ], className = 'in_state_column')
+                #             ], className = 'income_statement_multiple_values'),
+                #         ], className = 'income_statement_column1'),
+                #         html.Div([
+                #             html.Div([
+                #                 html.Div([
+                #                     html.P('Net Profit',
+                #                            className = 'income_statement_title'
+                #                            ),
+                #                     html.Div(id = 'income_statement7',
+                #                              className = 'income_statement1')
+                #                 ], className = 'income_statement_indicator_row7'),
+                #             ], className = 'net_profit_column')
+                dcc.Graph(id = 'bar_chart',
+                          config = {'displayModeBar': False},
+                          className = 'bar_chart_size'),
+                #     ], className = 'net_profit'),
+            ], className = 'net_profit2'),
         ], className = 'income_statement_row')
     ], className = 'f_row'),
 ])
