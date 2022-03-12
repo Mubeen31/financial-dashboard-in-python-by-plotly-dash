@@ -398,6 +398,24 @@ body {
   margin-top: -60px;
 }
 
+.line_chart_size {
+  display: flex;
+  flex-direction: row;
+  background-color: #FFFFFF;
+  width: 805px;
+  height: 150px;
+  margin-top: 5px;
+}
+
+.combination_chart_size {
+  display: flex;
+  flex-direction: row;
+  background-color: #FFFFFF;
+  width: 400px;
+  height: 255px;
+  margin-top: -100px;
+}
+
 .net_profit {
   display: flex;
   flex-direction: row;
@@ -434,6 +452,14 @@ body {
   flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.last_row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  column-gap: 12px;
 }
 
 .numeric_value {

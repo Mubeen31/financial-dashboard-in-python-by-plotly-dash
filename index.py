@@ -333,78 +333,21 @@ app.layout = html.Div([
                       className = 'donut_chart_size'),
 
             html.Div([
-                #     html.Div([
-                #             html.Div([
-                #                 html.P('Income Statement',
-                #                        className = 'format_text')
-                #             ], className = 'income_statement'),
-                #
-                #             html.Div([
-                #                 html.Div([
-                #                     html.Div([
-                #                         html.P('Income',
-                #                                className = 'income_statement_title'
-                #                                ),
-                #                         html.Div(id = 'income_statement1',
-                #                                  className = 'income_statement1'),
-                #                     ], className = 'income_statement_indicator_row1'),
-                #                     html.Div([
-                #                         html.P('Cost of Goods Sold',
-                #                                className = 'income_statement_title'
-                #                                ),
-                #                         html.Div(id = 'income_statement2',
-                #                                  className = 'income_statement1')
-                #                     ], className = 'income_statement_indicator_row2'),
-                #                     html.Hr(className = 'bottom_border'),
-                #                     html.Div([
-                #                         html.P('Gross Profit',
-                #                                className = 'income_statement_title'
-                #                                ),
-                #                         html.Div(id = 'income_statement3',
-                #                                  className = 'income_statement1'),
-                #                     ], className = 'income_statement_indicator_row3'),
-                #                     html.Div([
-                #                         html.P('Total Operating Expenses',
-                #                                className = 'income_statement_title'
-                #                                ),
-                #                         html.Div(id = 'income_statement4',
-                #                                  className = 'income_statement1')
-                #                     ], className = 'income_statement_indicator_row4'),
-                #                     html.Hr(className = 'bottom_border'),
-                #                     html.Div([
-                #                         html.P('Operating Profit (EBIT)',
-                #                                className = 'income_statement_title'
-                #                                ),
-                #                         html.Div(id = 'income_statement5',
-                #                                  className = 'income_statement1'),
-                #                     ], className = 'income_statement_indicator_row5'),
-                #                     html.Div([
-                #                         html.P('Taxes',
-                #                                className = 'income_statement_title'
-                #                                ),
-                #                         html.Div(id = 'income_statement6',
-                #                                  className = 'income_statement1')
-                #                     ], className = 'income_statement_indicator_row6'),
-                #                 ], className = 'in_state_column')
-                #             ], className = 'income_statement_multiple_values'),
-                #         ], className = 'income_statement_column1'),
-                #         html.Div([
-                #             html.Div([
-                #                 html.Div([
-                #                     html.P('Net Profit',
-                #                            className = 'income_statement_title'
-                #                            ),
-                #                     html.Div(id = 'income_statement7',
-                #                              className = 'income_statement1')
-                #                 ], className = 'income_statement_indicator_row7'),
-                #             ], className = 'net_profit_column')
                 dcc.Graph(id = 'bar_chart',
                           config = {'displayModeBar': False},
                           className = 'bar_chart_size'),
-                #     ], className = 'net_profit'),
             ], className = 'net_profit2'),
         ], className = 'income_statement_row')
     ], className = 'f_row'),
+
+    html.Div([
+        dcc.Graph(id = 'line_chart',
+                  config = {'displayModeBar': False},
+                  className = 'line_chart_size'),
+        dcc.Graph(id = 'combination_chart',
+                  config = {'displayModeBar': False},
+                  className = 'combination_chart_size'),
+    ], className = 'last_row')
 ])
 
 
@@ -1958,6 +1901,99 @@ def update_graph(select_month):
         ),
 
     }
+
+
+@app.callback(Output('bar_chart', 'figure'),
+              [Input('select_month', 'value')])
+def update_graph(select_month):
+    if select_month is None:
+        raise PreventUpdate
+    else:
+        filter_month = data[data['months'] == select_month]
+        income = filter_month['income'].iloc[0]
+        cost_of_goods_sold = filter_month['cost of goods sold'].iloc[0]
+        gross_profit = filter_month['gross profit'].iloc[0]
+        total_operating_expenses = filter_month['total operating expenses'].iloc[0]
+        operating_profit_EBIT = filter_month['operating profit (EBIT)'].iloc[0]
+        taxes = filter_month['Taxes'].iloc[0]
+        net_profit = filter_month['net profit'].iloc[0]
+        object_data = [['income', income], ['cost of goods sold', cost_of_goods_sold],
+                       ['gross profit', gross_profit], ['total operating expenses', total_operating_expenses],
+                       ['operating profit ebit', operating_profit_EBIT], ['taxes', taxes],
+                       ['net profit', net_profit]]
+        df = pd.DataFrame(object_data, columns = ['Text', 'Value'])
+        bar_color = np.where(df['Value'] > 0, '#B258D3', '#FF3399')
+        # bar_color1 = np.where(df['Value'] > 0, '#B258D3', '#FF3399')
+
+        return {
+            'data': [go.Bar(x = df['Text'],
+                            y = df['Value'],
+                            # text = df['Value'],
+                            # texttemplate = '%{text:,.0f}',
+                            # textposition = "none",
+                            # textfont = dict(
+                            #     family = "Calibri",
+                            #     size = 14,
+                            #     color = bar_color1,
+                            # ),
+                            marker = dict(color = bar_color),
+                            width = 0.5,
+                            orientation = 'v',
+                            hoverinfo = 'text',
+                            hovertext =
+                            '' + df['Text'].astype(str) + '<br>' +
+                            '$' + [f'{x:,.0f}' for x in df['Value']] + '<br>'
+                            )],
+
+            'layout': go.Layout(
+                plot_bgcolor = 'rgba(0,0,0,0)',
+                paper_bgcolor = 'rgba(0,0,0,0)',
+                title = {'text': 'Income Statement',
+                         'y': 0.97,
+                         'x': 0.5,
+                         'xanchor': 'center',
+                         'yanchor': 'top'},
+                titlefont = {'color': '#404040',
+                             'size': 16,
+                             'family': 'Calibri', },
+                margin = dict(r = 20, t = 20, b = 20, l = 70),
+                xaxis = dict(title = '<b></b>',
+                             visible = True,
+                             color = 'white',
+                             showline = False,
+                             showgrid = False,
+                             showticklabels = False,
+                             linecolor = 'white',
+                             linewidth = 0,
+                             ticks = 'outside',
+                             tickfont = dict(
+                                 family = 'Arial',
+                                 size = 12,
+                                 color = 'white')
+                             ),
+
+                yaxis = dict(title = '<b></b>',
+                             tickprefix = '$',
+                             tickformat = ',.0f',
+                             visible = True,
+                             color = 'white',
+                             showline = False,
+                             showgrid = False,
+                             showticklabels = True,
+                             linecolor = 'white',
+                             linewidth = 1,
+                             ticks = 'outside',
+                             tickfont = dict(
+                                 family = 'Calibri',
+                                 size = 15,
+                                 color = '#404040')
+                             ),
+                font = dict(
+                    family = "sans-serif",
+                    size = 12,
+                    color = 'white'),
+            )
+        }
 
 
 if __name__ == "__main__":
