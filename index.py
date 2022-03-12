@@ -68,7 +68,7 @@ data['pct_expense_budget_%'] = data['pct_expense_budget_%'].fillna(0)
 data['pct_cost_of_goods_sold'] = (data['cost of goods sold'].pct_change()) * 100
 data['pct_cost_of_goods_sold'] = data['pct_cost_of_goods_sold'].fillna(0)
 
-print(data.dtypes)
+# print(data.dtypes)
 
 font_awesome = "https://use.fontawesome.com/releases/v5.10.2/css/all.css"
 meta_tags = [{"name": "viewport", "content": "width=device-width"}]
