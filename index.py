@@ -1988,12 +1988,166 @@ def update_graph(select_month):
                                  size = 15,
                                  color = '#404040')
                              ),
-                font = dict(
-                    family = "sans-serif",
-                    size = 12,
-                    color = 'white'),
             )
         }
+
+
+@app.callback(Output('line_chart', 'figure'),
+              [Input('select_month', 'value')])
+def update_graph(select_month):
+    net_profit = data['net profit']
+    months = data['months']
+    text_color = np.where(net_profit > 0, 'black', '#FF3399')
+
+    return {
+        'data': [
+            go.Scatter(
+                x = months,
+                y = net_profit,
+                text = net_profit,
+                texttemplate = '$' + '%{text:,.0f}',
+                textposition = 'top center',
+                textfont = dict(
+                    family = "Calibri",
+                    size = 14,
+                    color = text_color,
+                ),
+                mode = 'markers+lines+text',
+                line = dict(shape = "spline", smoothing = 1.3, width = 3, color = '#B258D3'),
+                marker = dict(size = 10, symbol = 'circle', color = '#FFFFFF',
+                              line = dict(color = '#00B0F0', width = 2)
+                              ),
+
+                hoverinfo = 'text',
+                hovertext =
+                '<b>Month</b>: ' + months.astype(str) + '<br>' +
+                '<b>Net Profit</b>: $' + [f'{x:,.0f}' for x in net_profit] + '<br>'
+            )],
+
+        'layout': go.Layout(
+            plot_bgcolor = 'rgba(0,0,0,0)',
+            paper_bgcolor = 'rgba(0,0,0,0)',
+            title = {'text': 'Net Profit',
+                     'y': 0.97,
+                     'x': 0.5,
+                     'xanchor': 'center',
+                     'yanchor': 'top'},
+            titlefont = {'color': '#404040',
+                         'size': 16,
+                         'family': 'Calibri', },
+            margin = dict(r = 20, t = 20, b = 30, l = 70),
+            xaxis = dict(title = '<b></b>',
+                         visible = True,
+                         color = 'white',
+                         showline = False,
+                         showgrid = False,
+                         showticklabels = True,
+                         linecolor = 'white',
+                         linewidth = 1,
+                         ticks = 'outside',
+                         tickfont = dict(
+                             family = 'Arial',
+                             size = 12,
+                             color = '#404040')
+                         ),
+
+            yaxis = dict(title = '<b></b>',
+                         tickprefix = '$',
+                         tickformat = ',.0f',
+                         visible = True,
+                         color = 'white',
+                         showline = False,
+                         showgrid = False,
+                         showticklabels = True,
+                         linecolor = 'white',
+                         linewidth = 1,
+                         ticks = 'outside',
+                         tickfont = dict(
+                             family = 'Calibri',
+                             size = 15,
+                             color = '#404040')
+                         ),
+        )
+    }
+
+
+@app.callback(Output('combination_chart', 'figure'),
+              [Input('select_month', 'value')])
+def update_graph(select_month):
+    income = data['income']
+    expenses = data['expenses']
+    months = data['months']
+
+    return {
+        'data': [
+            go.Scatter(
+                x = months,
+                y = income,
+                mode = 'lines',
+                line = dict(shape = "spline", smoothing = 1.3, width = 3, color = '#D35940'),
+                hoverinfo = 'text',
+                hovertext =
+                '<b>Month</b>: ' + months.astype(str) + '<br>' +
+                '<b>Income</b>: $' + [f'{x:,.0f}' for x in income] + '<br>'
+            ),
+            go.Bar(
+                x = months,
+                y = expenses,
+                marker = dict(color = '#63A0CC'),
+                width = 0.5,
+                hoverinfo = 'text',
+                hovertext =
+                '<b>Month</b>: ' + months.astype(str) + '<br>' +
+                '<b>Expenses</b>: $' + [f'{x:,.0f}' for x in expenses] + '<br>'
+            )
+        ],
+
+        'layout': go.Layout(
+            showlegend = False,
+            plot_bgcolor = 'rgba(0,0,0,0)',
+            paper_bgcolor = 'rgba(0,0,0,0)',
+            title = {'text': 'Income and Expenses',
+                     'y': 0.97,
+                     'x': 0.5,
+                     'xanchor': 'center',
+                     'yanchor': 'top'},
+            titlefont = {'color': '#404040',
+                         'size': 16,
+                         'family': 'Calibri', },
+            margin = dict(r = 20, t = 20, b = 30, l = 70),
+            xaxis = dict(title = '<b></b>',
+                         visible = True,
+                         color = 'white',
+                         showline = False,
+                         showgrid = False,
+                         showticklabels = True,
+                         linecolor = 'white',
+                         linewidth = 1,
+                         ticks = 'outside',
+                         tickfont = dict(
+                             family = 'Arial',
+                             size = 12,
+                             color = '#404040')
+                         ),
+
+            yaxis = dict(title = '<b></b>',
+                         tickprefix = '$',
+                         tickformat = ',.0f',
+                         visible = True,
+                         color = 'white',
+                         showline = False,
+                         showgrid = False,
+                         showticklabels = True,
+                         linecolor = 'white',
+                         linewidth = 1,
+                         ticks = 'outside',
+                         tickfont = dict(
+                             family = 'Calibri',
+                             size = 15,
+                             color = '#404040')
+                         ),
+        )
+    }
 
 
 if __name__ == "__main__":
